@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+{% block meta_description %}Your Veltrix model deployment dashboard.{% endblock %}
+
+{% block content %}
+<section class="vx-dashboard py-5">
+  <div class="container">
+
+    <!-- -- Welcome banner ---------------------------------------- -->
+    <div class="vx-dashboard-banner mb-5">
+      <div class="row align-items-center gy-3">
+        <div class="col-auto">
+          <div class="vx-avatar vx-avatar-purple">
+            {{ (current_user.username | first | default('U')) | upper }}
+          </div>
+        </div>
+        <div class="col">
+          <p class="vx-dashboard-greeting mb-0">DEVELOPER PANEL</p>
+          <h1 class="vx-dashboard-username mb-0">{{ current_user.username }}</h1>
+          <p class="text-muted small mb-0 mt-1">
+            <i class="bi bi-calendar3 me-1"></i>{{ current_date }}
+          </p>
+        </div>
+        <div class="col-auto">
+          <a href="{{ url_for('auth.logout') }}" class="btn vx-btn-outline-light btn-sm">
+            <i class="bi bi-box-arrow-right me-1"></i>Logout
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- -- Stats row (ML Metrics Focus) -------------------------------- -->
+    <div class="row g-4 mb-5">
+
+      <!-- Stats 1 -->
+      <div class="col-sm-6 col-xl-3">
+        <div class="vx-stat-card">
+          <div class="vx-stat-icon vx-text-primary"><i class="bi bi-cpu-fill"></i></div>
+          <div class="vx-stat-label">Deployments</div>
+          <div class="vx-stat-value vx-text-blue">1 Active Model</div>
+        </div>
+      </div>
+
+      <!-- Stats 2 -->
+      <div class="col-sm-6 col-xl-3">
+        <div class="vx-stat-card">
+          <div class="vx-stat-icon vx-text-accent"><i class="bi bi-speedometer"></i></div>
+          <div class="vx-stat-label">Model Status</div>
+          <div class="vx-stat-value vx-text-purple">Online (Inference OK)</div>
+        </div>
+      </div>
+
+      <!-- Stats 3 -->
+      <div class="col-sm-6 col-xl-3">
+        <div class="vx-stat-card">
+          <div class="vx-stat-icon text-success"><i class="bi bi-database-check"></i></div>
+          <div class="vx-stat-label">Prediction DB Logs</div>
+          <div class="vx-stat-value text-success">SQLite (Connected)</div>
+        </div>
+      </div>
+
+      <!-- Stats 4 -->
+      <div class="col-sm-6 col-xl-3">
+        <div class="vx-stat-card">
+          <div class="vx-stat-icon text-warning"><i class="bi bi-key-fill"></i></div>
+          <div class="vx-stat-label">Inference API Key</div>
+          <div class="vx-stat-value text-dark text-truncate" title="veltrix_key_prod_8231">
+            veltrix_key_prod_8231...
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /stats row -->
+
+    <!-- -- Content row -------------------------------------------- -->
+    <div class="row g-4">
+
+      <!-- Model Deployment Steps Checklist -->
+      <div class="col-lg-6">
+        <div class="vx-card h-100">
+          <div class="vx-card-header">
+            <i class="bi bi-patch-check-fill me-2 vx-text-accent"></i>
+            Machine Learning Deployment Workflow
+          </div>
+          <div class="vx-card-body">
+            <p class="text-muted small mb-3">
+              Veltrix is perfectly configured to deploy Machine Learning, Data Science, and AI models. Follow this simple checklist to deploy your model:
+            </p>
+            <ul class="vx-checklist">
+              <li>
+                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                <div>
+                  <strong>Model Training:</strong> Save your trained model (e.g., <code>joblib.dump(model, 'model.pkl')</code>).
+                </div>
+              </li>
+              <li>
+                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                <div>
+                  <strong>Model Asset:</strong> Place your <code>.pkl</code> or <code>.onnx</code> file inside <code>app/static/</code> or a custom assets folder.
+                </div>
+              </li>
+              <li>
+                <i class="bi bi-arrow-right-circle-fill vx-text-primary me-2"></i>
+                <div>
+                  <strong>Endpoint Setup:</strong> Write custom routes in <code>app/routes/main.py</code> to load the model and predict inputs.
+                </div>
+              </li>
+              <li>
+                <i class="bi bi-circle me-2 text-muted"></i>
+                <div>
+                  <strong>API Testing:</strong> Test predictions via POST request using tools like <code>curl</code> or Postman.
+                </div>
+              </li>
+              <li>
+                <i class="bi bi-circle me-2 text-muted"></i>
+                <div>
+                  <strong>Prediction Logs:</strong> Log prediction inputs and results directly into the database using our SQLAlchemy user schema model template.
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Flask ML Directory layout -->
+      <div class="col-lg-6">
+        <div class="vx-card h-100">
+          <div class="vx-card-header">
+            <i class="bi bi-folder-fill me-2 vx-text-primary"></i>
+            AI/ML Project Architecture
+          </div>
+          <div class="vx-card-body">
+            <pre class="vx-tree mb-0"><code>veltrix/
+├── app/
+│   ├── models/
+│   │   └── user.py        <span class="vx-tree-comment"># Developer & API access auth</span>
+│   ├── routes/
+│   │   ├── main.py        <span class="vx-tree-comment"># API endpoints & prediction handling</span>
+│   │   └── auth.py        <span class="vx-tree-comment"># Login / Registration protection</span>
+│   ├── static/
+│   │   ├── css/style.css  <span class="vx-tree-comment"># Solid ultra-clean light mode styles</span>
+│   │   └── models/        <span class="vx-tree-comment"># Recommended path for serialized models</span>
+│   └── templates/         <span class="vx-tree-comment"># UI Control Dashboard</span>
+├── tests/
+│   └── test_app.py        <span class="vx-tree-comment"># Automated API endpoint verification</span>
+├── run.py                 <span class="vx-tree-comment"># Safe Windows ASCII app startup script</span>
+└── requirements.txt       <span class="vx-tree-comment"># scikit-learn, joblib, pandas ready</span></code></pre>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content row -->
+
+  </div><!-- /container -->
+</section>
+{% endblock %}
