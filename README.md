@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="app/static/img/full-logo.jpg" alt="Veltrix Logo" width="180">
+  <img src="app/static/img/full-logo.jpg" alt="Veltrix Logo" width="100%">
 </p>
 
 # Vertrix
