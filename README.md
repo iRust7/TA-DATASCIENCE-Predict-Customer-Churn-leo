@@ -202,6 +202,10 @@ veltrix/
 │   │   ├── __init__.py
 │   │   ├── main.py          # Landing + Dashboard routes
 │   │   └── auth.py          # Register / Login / Logout routes
+│   ├
+│   ├── services/
+│   │   ├── __init__.py
+│   │   ├── model_service.py  # Model integration and execution logic
 │   │
 │   ├── templates/
 │   │   ├── base.html        # Master layout (navbar, footer, flash)
