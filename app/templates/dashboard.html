@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
 {% block title %}Dashboard{% endblock %}
-{% block meta_description %}Your Veltrix model deployment dashboard.{% endblock %}
+{% block meta_description %}Model deployment dashboard – Salary Prediction Model analytics and performance metrics.{% endblock %}
 
 {% block content %}
 <section class="vx-dashboard py-5">
   <div class="container">
 
-    <!-- -- Welcome banner ---------------------------------------- -->
+    <!-- ── Welcome Banner ───────────────────────────────────────────── -->
     <div class="vx-dashboard-banner mb-5 vx-animate-fade-in-up">
       <div class="row align-items-center gy-3">
         <div class="col-auto">
@@ -15,143 +15,266 @@
             {{ (current_user.username | first | default('U')) | upper }}
           </div>
         </div>
-
         <div class="col">
           <p class="vx-dashboard-greeting mb-0">DEVELOPER PANEL</p>
           <h1 class="vx-dashboard-username mb-0">{{ current_user.username }}</h1>
         </div>
-
-        <div class="col-auto">
+        <div class="col-auto d-flex align-items-center gap-3">
           <p class="text-muted small mb-0">
             <i class="bi bi-calendar3 me-1"></i>{{ current_date }}
           </p>
+          <a href="{{ url_for('main.test_model') }}" class="btn vx-btn-accent btn-sm d-flex align-items-center gap-2">
+            <i class="bi bi-play-circle-fill"></i> Test Model
+          </a>
         </div>
       </div>
     </div>
 
-    <!-- -- Stats row (ML Metrics Focus) -------------------------------- -->
+    <!-- ── Status Stats Row ──────────────────────────────────────────── -->
     <div class="row g-4 mb-5">
-
-      <!-- Stats 1 -->
       <div class="col-sm-6 col-xl-3">
         <div class="vx-stat-card">
           <div class="vx-stat-icon vx-text-primary"><i class="bi bi-cpu-fill"></i></div>
-          <div class="vx-stat-label">Deployments</div>
-          <div class="vx-stat-value vx-text-blue">1 Active Model</div>
+          <div class="vx-stat-label">Active Deployments</div>
+          <div class="vx-stat-value vx-text-blue">1 Model</div>
         </div>
       </div>
-
-      <!-- Stats 2 -->
       <div class="col-sm-6 col-xl-3">
         <div class="vx-stat-card">
-          <div class="vx-stat-icon vx-text-accent"><i class="bi bi-speedometer"></i></div>
+          <div class="vx-stat-icon vx-text-accent"><i class="bi bi-speedometer2"></i></div>
           <div class="vx-stat-label">Model Status</div>
-          <div class="vx-stat-value vx-text-purple">Online (Inference OK)</div>
+          <div class="vx-stat-value text-success">Online ✓</div>
         </div>
       </div>
-
-      <!-- Stats 3 -->
       <div class="col-sm-6 col-xl-3">
         <div class="vx-stat-card">
-          <div class="vx-stat-icon text-success"><i class="bi bi-database-check"></i></div>
-          <div class="vx-stat-label">Prediction DB Logs</div>
-          <div class="vx-stat-value text-success">SQLite (Connected)</div>
+          <div class="vx-stat-icon text-success"><i class="bi bi-graph-up-arrow"></i></div>
+          <div class="vx-stat-label">R² Score</div>
+          <div class="vx-stat-value vx-text-purple">0.9549</div>
         </div>
       </div>
-
-      <!-- Stats 4 -->
       <div class="col-sm-6 col-xl-3">
         <div class="vx-stat-card">
-          <div class="vx-stat-icon text-warning"><i class="bi bi-key-fill"></i></div>
-          <div class="vx-stat-label">Inference API Key</div>
-          <div class="vx-stat-value text-dark text-truncate" title="veltrix_key_prod_8231">
-            veltrix_key_prod_8231...
+          <div class="vx-stat-icon text-warning"><i class="bi bi-database-check"></i></div>
+          <div class="vx-stat-label">Dataset Size</div>
+          <div class="vx-stat-value text-dark">6,704 Rows</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Model Info + Performance Metrics ─────────────────────────── -->
+    <div class="row g-4 mb-5">
+
+      <!-- Model Information -->
+      <div class="col-lg-6">
+        <div class="vx-card h-100">
+          <div class="vx-card-header d-flex align-items-center gap-2">
+            <i class="bi bi-info-circle-fill vx-text-primary"></i>
+            Model Information
+          </div>
+          <div class="vx-card-body">
+            <table class="vx-model-info-table w-100">
+              <tbody>
+                <tr>
+                  <td class="vx-info-label"><i class="bi bi-tag me-2 vx-text-primary"></i>Model Name</td>
+                  <td class="vx-info-value">Salary Prediction Model</td>
+                </tr>
+                <tr>
+                  <td class="vx-info-label"><i class="bi bi-bookmark me-2 vx-text-accent"></i>Version</td>
+                  <td class="vx-info-value"><span class="vx-version-badge">v1.0.0</span></td>
+                </tr>
+                <tr>
+                  <td class="vx-info-label"><i class="bi bi-diagram-3 me-2 text-success"></i>Algorithm</td>
+                  <td class="vx-info-value">Random Forest Regressor</td>
+                </tr>
+                <tr>
+                  <td class="vx-info-label"><i class="bi bi-calendar-check me-2 text-warning"></i>Training Date</td>
+                  <td class="vx-info-value">2025-05-30</td>
+                </tr>
+                <tr>
+                  <td class="vx-info-label"><i class="bi bi-table me-2 text-info"></i>Dataset Size</td>
+                  <td class="vx-info-value">6,704 rows × 9 columns</td>
+                </tr>
+                <tr>
+                  <td class="vx-info-label"><i class="bi bi-bullseye me-2 vx-text-primary"></i>Target</td>
+                  <td class="vx-info-value">Salary (Regression)</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
 
-    </div><!-- /stats row -->
+      <!-- Performance Metrics -->
+      <div class="col-lg-6">
+        <div class="vx-card h-100">
+          <div class="vx-card-header d-flex align-items-center gap-2">
+            <i class="bi bi-bar-chart-fill vx-text-accent"></i>
+            Performance Metrics
+          </div>
+          <div class="vx-card-body">
+            <p class="text-muted small mb-4">Evaluation on held-out test set from the training dataset.</p>
 
-    <!-- -- Content row -------------------------------------------- -->
+            <!-- MAE -->
+            <div class="vx-metric-row mb-4">
+              <div class="d-flex justify-content-between align-items-baseline mb-1">
+                <span class="vx-metric-label">
+                  <i class="bi bi-arrows-expand-vertical me-2 text-danger"></i>
+                  Mean Absolute Error <span class="text-muted">(MAE)</span>
+                </span>
+                <span class="vx-metric-value text-danger">7,335.20</span>
+              </div>
+              <div class="vx-metric-bar-track">
+                <div class="vx-metric-bar vx-bar-danger" style="width: 65%;"></div>
+              </div>
+              <p class="vx-metric-hint">Average prediction error in USD</p>
+            </div>
+
+            <!-- RMSE -->
+            <div class="vx-metric-row mb-4">
+              <div class="d-flex justify-content-between align-items-baseline mb-1">
+                <span class="vx-metric-label">
+                  <i class="bi bi-reception-4 me-2 text-warning"></i>
+                  Root Mean Sq. Error <span class="text-muted">(RMSE)</span>
+                </span>
+                <span class="vx-metric-value text-warning">11,356.48</span>
+              </div>
+              <div class="vx-metric-bar-track">
+                <div class="vx-metric-bar vx-bar-warning" style="width: 75%;"></div>
+              </div>
+              <p class="vx-metric-hint">Penalizes larger errors more heavily</p>
+            </div>
+
+            <!-- R² -->
+            <div class="vx-metric-row">
+              <div class="d-flex justify-content-between align-items-baseline mb-1">
+                <span class="vx-metric-label">
+                  <i class="bi bi-graph-up-arrow me-2 text-success"></i>
+                  R² Score <span class="text-muted">(Coefficient of Determination)</span>
+                </span>
+                <span class="vx-metric-value text-success">0.9549</span>
+              </div>
+              <div class="vx-metric-bar-track">
+                <div class="vx-metric-bar vx-bar-success" style="width: 95.49%;"></div>
+              </div>
+              <p class="vx-metric-hint">95.49% of variance explained — Excellent fit</p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /model info + metrics -->
+
+    <!-- ── Data Analytics ────────────────────────────────────────────── -->
+    <div class="row g-4 mb-5">
+
+      <div class="col-12">
+        <div class="vx-section-divider mb-1">
+          <i class="bi bi-bar-chart-line-fill me-2 vx-text-primary"></i>
+          <span>Data Analytics</span>
+        </div>
+        <p class="text-muted small mb-0">Visual insights from the training dataset used to build this model.</p>
+      </div>
+
+      <!-- Salary Distribution -->
+      <div class="col-lg-6">
+        <div class="vx-card h-100">
+          <div class="vx-card-header d-flex align-items-center gap-2">
+            <i class="bi bi-currency-dollar vx-text-primary"></i>
+            Salary Distribution
+          </div>
+          <div class="vx-card-body p-0">
+            <div class="vx-chart-container">
+              <img
+                src="{{ url_for('static', filename='img/salary_distribution.png') }}"
+                alt="Salary Distribution Chart"
+                class="vx-chart-img"
+                id="salaryDistributionChart"
+              />
+            </div>
+            <div class="vx-chart-caption">
+              <i class="bi bi-info-circle me-1"></i>
+              Distribution of salaries across all 6,704 records in the dataset.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature Importance -->
+      <div class="col-lg-6">
+        <div class="vx-card h-100">
+          <div class="vx-card-header d-flex align-items-center gap-2">
+            <i class="bi bi-stars vx-text-accent"></i>
+            Feature Importance
+          </div>
+          <div class="vx-card-body p-0">
+            <div class="vx-chart-container">
+              <img
+                src="{{ url_for('static', filename='img/feature_importance.png') }}"
+                alt="Feature Importance Chart"
+                class="vx-chart-img"
+                id="featureImportanceChart"
+              />
+            </div>
+            <div class="vx-chart-caption">
+              <i class="bi bi-info-circle me-1"></i>
+              Top features ranked by their contribution to prediction accuracy.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /analytics -->
+
+    <!-- ── Quick Actions ─────────────────────────────────────────────── -->
     <div class="row g-4">
-
-      <!-- Model Deployment Steps Checklist -->
-      <div class="col-lg-6">
-        <div class="vx-card h-100">
-          <div class="vx-card-header">
-            <i class="bi bi-patch-check-fill me-2 vx-text-accent"></i>
-            Machine Learning Deployment Workflow
+      <div class="col-12">
+        <div class="vx-card">
+          <div class="vx-card-header d-flex align-items-center gap-2">
+            <i class="bi bi-lightning-fill text-warning"></i>
+            Quick Actions
           </div>
           <div class="vx-card-body">
-            <p class="text-muted small mb-3">
-              Veltrix is perfectly configured to deploy Machine Learning, Data Science, and AI models. Follow this simple checklist to deploy your model:
-            </p>
-            <ul class="vx-checklist">
-              <li>
-                <i class="bi bi-check-circle-fill text-success me-2"></i>
-                <div>
-                  <strong>Model Training:</strong> Save your trained model (e.g., <code>joblib.dump(model, 'model.pkl')</code>).
-                </div>
-              </li>
-              <li>
-                <i class="bi bi-check-circle-fill text-success me-2"></i>
-                <div>
-                  <strong>Model Asset:</strong> Place your <code>.pkl</code> or <code>.onnx</code> file inside <code>app/static/</code> or a custom assets folder.
-                </div>
-              </li>
-              <li>
-                <i class="bi bi-arrow-right-circle-fill vx-text-primary me-2"></i>
-                <div>
-                  <strong>Endpoint Setup:</strong> Write custom routes in <code>app/routes/main.py</code> to load the model and predict inputs.
-                </div>
-              </li>
-              <li>
-                <i class="bi bi-circle me-2 text-muted"></i>
-                <div>
-                  <strong>API Testing:</strong> Test predictions via POST request using tools like <code>curl</code> or Postman.
-                </div>
-              </li>
-              <li>
-                <i class="bi bi-circle me-2 text-muted"></i>
-                <div>
-                  <strong>Prediction Logs:</strong> Log prediction inputs and results directly into the database using our SQLAlchemy user schema model template.
-                </div>
-              </li>
-            </ul>
+            <div class="row g-3">
+              <div class="col-sm-6 col-md-4">
+                <a href="{{ url_for('main.test_model') }}" class="vx-action-tile" id="actionTestModel">
+                  <div class="vx-action-icon vx-icon-purple">
+                    <i class="bi bi-play-circle-fill"></i>
+                  </div>
+                  <div>
+                    <div class="vx-action-title">Test Model</div>
+                    <div class="vx-action-sub">Run a live salary prediction</div>
+                  </div>
+                </a>
+              </div>
+              <div class="col-sm-6 col-md-4">
+                <a href="{{ url_for('main.dashboard') }}" class="vx-action-tile" id="actionRefreshDashboard">
+                  <div class="vx-action-icon vx-icon-blue">
+                    <i class="bi bi-arrow-clockwise"></i>
+                  </div>
+                  <div>
+                    <div class="vx-action-title">Refresh Dashboard</div>
+                    <div class="vx-action-sub">Reload model status & metrics</div>
+                  </div>
+                </a>
+              </div>
+              <div class="col-sm-6 col-md-4">
+                <a href="https://github.com/Tedshub/Vertix" target="_blank" class="vx-action-tile" id="actionViewDocs">
+                  <div class="vx-action-icon vx-icon-green">
+                    <i class="bi bi-book-fill"></i>
+                  </div>
+                  <div>
+                    <div class="vx-action-title">Documentation</div>
+                    <div class="vx-action-sub">View Vertix framework guide</div>
+                  </div>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
-      <!-- Flask ML Directory layout -->
-      <div class="col-lg-6">
-        <div class="vx-card h-100">
-          <div class="vx-card-header">
-            <i class="bi bi-folder-fill me-2 vx-text-primary"></i>
-            AI/ML Project Architecture
-          </div>
-          <div class="vx-card-body">
-            <pre class="vx-tree mb-0"><code>veltrix/
-├── app/
-│   ├── models/
-│   │   └── user.py        <span class="vx-tree-comment"># Developer & API access auth</span>
-│   ├── routes/
-│   │   ├── main.py        <span class="vx-tree-comment"># API endpoints & prediction handling</span>
-│   │   └── auth.py        <span class="vx-tree-comment"># Login / Registration protection</span>
-│   ├── services/
-│   │   ├── model_service.py <span class="vx-tree-comment"># Model integration and execution logic</span>
-│   ├── static/
-│   │   ├── css/style.css  <span class="vx-tree-comment"># Solid ultra-clean light mode styles</span>
-│   │   └── models/        <span class="vx-tree-comment" style="color: purple; font-weight: bold;"># Recommended path for serialized models</span>
-│   └── templates/         <span class="vx-tree-comment"># UI Control Dashboard</span>
-├── tests/
-│   └── test_app.py        <span class="vx-tree-comment"># Automated API endpoint verification</span>
-├── run.py                 <span class="vx-tree-comment"># Safe Windows ASCII app startup script</span>
-└── requirements.txt       <span class="vx-tree-comment"># scikit-learn, joblib, pandas ready</span></code></pre>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- /content row -->
+    </div><!-- /quick actions -->
 
   </div><!-- /container -->
 </section>

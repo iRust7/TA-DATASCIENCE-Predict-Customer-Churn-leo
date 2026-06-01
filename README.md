@@ -1,10 +1,10 @@
 <p align="center">
-  <img src="app/static/img/full-logo.jpg" alt="Veltrix Logo" width="100%">
+  <img src="app/static/img/full-logo.png" alt="Veltrix Logo" width="100%">
 </p>
 
 # Vertrix
 
-> **The modern Flask starter framework for deploying Machine Learning, Data Science, and AI models.**  
+> **The modern Flask starter framework for deploying Machine Learning, Data Science, and AI models.**
 > Package your custom models, create clean API endpoints, secure prediction access, and log inferences from day one.
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=flat-square&logo=python)
@@ -45,18 +45,45 @@ git clone https://github.com/Tedshub/Vertix.git
 cd veltrix
 ```
 
-### 2. Create and activate a virtual environment
+---
+
+### 2. VS Code Setup
+
+After cloning the repository and opening the project folder in VS Code, follow these steps before proceeding.
+
+#### 2.1. Install the Python Extension
+
+1. Open the **Extensions** panel using the shortcut `Ctrl+Shift+X`.
+2. In the search bar, type **Python**.
+3. Find the extension named **Python** published by **Microsoft**.
+4. Click **Install**.
+5. Wait for the installation to complete. VS Code may prompt you to reload the window — click **Reload** if prompted.
+
+#### 2.2. Select the Python Interpreter
+
+After the extension is installed, set the Python interpreter for the project:
+
+1. Open the **Command Palette** using the shortcut `Ctrl+Shift+P`.
+2. Type **Python: Select Interpreter** and select it from the dropdown.
+3. A list of available Python environments will appear.
+4. Select the **global Python interpreter** (e.g., `Python 3.10.x` without any virtual environment prefix). It is typically listed at the top and labeled with the full Python path such as `C:\Users\YourName\AppData\Local\Programs\Python\Python310\python.exe` on Windows, or `/usr/bin/python3` on macOS/Linux.
+
+> The global interpreter is used as the base for creating the virtual environment in the next step. You will switch to the virtual environment interpreter after it is created.
+
+---
+
+### 3. Create and activate a virtual environment
 
 **Windows (PowerShell):**
 ```powershell
 python -m venv venv
- .\venv\Scripts\activate
+.\venv\Scripts\activate
 ```
 
 **Windows (Command Prompt):**
 ```cmd
 python -m venv venv
- .\venv\Scripts\activate
+.\venv\Scripts\activate
 ```
 
 **macOS / Linux:**
@@ -67,7 +94,9 @@ source venv/bin/activate
 
 You should see `(venv)` at the start of your terminal prompt.
 
-### 3. Install dependencies
+> After creating the virtual environment, it is recommended to repeat step **2.2** and select the `venv` interpreter from the list (it will appear as `Python 3.x.x ('venv': venv)`) so that VS Code uses the correct environment for IntelliSense, linting, and debugging.
+
+### 4. Install dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -202,7 +231,7 @@ veltrix/
 │   │   ├── __init__.py
 │   │   ├── main.py          # Landing + Dashboard routes
 │   │   └── auth.py          # Register / Login / Logout routes
-│   ├
+│   │
 │   ├── services/
 │   │   ├── __init__.py
 │   │   ├── model_service.py  # Model integration and execution logic
