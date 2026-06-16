@@ -1,105 +1,86 @@
 {% extends "base.html" %}
 
-{% block title %}Login{% endblock %}
-{% block meta_description %}Sign in to your Veltrix developer account to manage model deployments.{% endblock %}
+{% block title %}Login | Customer Churn Intelligence Portal{% endblock %}
+{% block meta_description %}Sign in to Veltrix.ai to access the customer retention dashboard and churn prediction
+tools.{% endblock %}
 
 {% block content %}
-<section class="vx-auth-section d-flex align-items-center py-5">
-  <div class="container position-relative z-1">
+<section class="d-flex align-items-center py-5" style="min-height: 80vh;">
+  <div class="container">
     <div class="row justify-content-center">
       <div class="col-sm-10 col-md-8 col-lg-5 col-xl-4">
 
-        <!-- Card -->
-        <div class="vx-auth-card vx-animate-fade-in-up">
+        <div class="gz-card shadow-sm border p-4 p-sm-5 mx-auto vx-animate-fade-in-up" style="max-width: 420px;">
 
-          <!-- Header -->
-          <div class="vx-auth-card-header text-center mb-4">
-            <a href="{{ url_for('main.landing') }}" class="d-inline-flex flex-column align-items-center gap-2 mb-3">
-              <img src="{{ url_for('static', filename='img/vertix-logo.png') }}" alt="Veltrix Logo" class="vx-auth-logo" style="max-height: 48px;" />
-              <img src="{{ url_for('static', filename='img/vertix-text-name.png') }}" alt="Veltrix Name" style="max-height: 20px;" />
+          <div class="text-center mb-4">
+            <a href="{{ url_for('main.landing') }}"
+              class="d-inline-flex flex-column align-items-center gap-2 mb-3 text-decoration-none">
+              <img src="{{ url_for('static', filename='img/vertix-logo.png') }}" alt="Veltrix Logo" class="mb-0"
+                style="max-height: 44px;" />
+              <h2 class="h5 fw-bold text-dark mb-0" style="font-family: 'Plus Jakarta Sans', sans-serif;">Veltrix.ai
+              </h2>
             </a>
-            <h1 class="h5 vx-auth-title mt-2">Welcome Back</h1>
-            <p class="text-muted small">Sign in to your model deployment control panel</p>
+            <h1 class="h6 fw-bold text-dark mt-2">Welcome Back</h1>
+            <p class="text-secondary small mb-0">Sign in to your customer retention dashboard</p>
           </div>
 
-          <!-- Login form -->
           <form method="POST" action="{{ url_for('auth.login') }}" novalidate id="loginForm">
 
-            <!-- Email -->
             <div class="mb-3">
-              <label for="email" class="form-label vx-form-label">Email address</label>
-              <div class="input-group vx-input-group">
-                <span class="input-group-text vx-input-icon">
+              <label OS-text for="email" class="form-label text-dark fw-medium mb-1.5" style="font-size: 0.85rem;">Email
+                Address</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light text-secondary border-end-0 px-3">
                   <i class="bi bi-envelope"></i>
                 </span>
-                <input
-                  type="email"
-                  class="form-control vx-input"
-                  id="email"
-                  name="email"
-                  placeholder="developer@example.com"
-                  autocomplete="email"
-                  required
-                />
+                <input type="email" class="form-control border-start-0 ps-1 py-2 text-dark" id="email" name="email"
+                  placeholder="analyst@telco.com" autocomplete="email" required
+                  style="font-size: 0.95rem; border-radius: 0 8px 8px 0;" />
               </div>
             </div>
 
-            <!-- Password -->
             <div class="mb-3">
-              <div class="d-flex justify-content-between align-items-center">
-                <label for="password" class="form-label vx-form-label mb-0">Password</label>
+              <div class="d-flex justify-content-between align-items-center mb-1.5">
+                <label for="password" class="form-label text-dark fw-medium mb-0"
+                  style="font-size: 0.85rem;">Password</label>
               </div>
-              <div class="input-group vx-input-group mt-1">
-                <span class="input-group-text vx-input-icon">
+              <div class="input-group">
+                <span class="input-group-text bg-light text-secondary border-end-0 px-3">
                   <i class="bi bi-lock"></i>
                 </span>
-                <input
-                  type="password"
-                  class="form-control vx-input"
-                  id="password"
-                  name="password"
-                  placeholder="••••••••"
-                  autocomplete="current-password"
-                  required
-                />
-                <button
-                  class="btn vx-input-icon vx-toggle-pw"
-                  type="button"
-                  id="togglePassword"
-                  title="Show / hide password"
-                >
+                <input type="password" class="form-control border-start-0 border-end-0 ps-1 py-2 text-dark"
+                  id="password" name="password" placeholder="••••••••" autocomplete="current-password" required
+                  style="font-size: 0.95rem;" />
+                <button class="btn bg-light border border-start-0 text-secondary px-3" type="button" id="togglePassword"
+                  title="Show / hide password" style="border-radius: 0 8px 8px 0;">
                   <i class="bi bi-eye" id="togglePasswordIcon"></i>
                 </button>
               </div>
             </div>
 
-            <!-- Remember me -->
             <div class="mb-4 d-flex align-items-center">
-              <input
-                class="form-check-input vx-checkbox me-2"
-                type="checkbox"
-                id="remember"
-                name="remember"
-              />
-              <label class="form-check-label small text-muted mb-0" for="remember">
+              <input class="form-check-input me-2" type="checkbox" id="remember" name="remember"
+                style="cursor: pointer;" />
+              <label class="form-check-label small text-secondary mb-0" for="remember"
+                style="cursor: pointer; user-select: none;">
                 Keep me signed in
               </label>
             </div>
 
-            <!-- Submit -->
-            <button type="submit" class="btn vx-btn-primary w-100 py-2" id="loginBtn">
-              <i class="bi bi-box-arrow-in-right me-2"></i>Sign In to Dashboard
+            <button type="submit"
+              class="gz-btn-primary w-100 py-2.5 shadow-sm border-0 d-flex align-items-center justify-content-center gap-2"
+              id="loginBtn">
+              <i class="bi bi-box-arrow-in-right"></i> Sign In to Platform
             </button>
 
-          </form><!-- /form -->
-
-          <!-- Footer -->
-          <p class="text-center text-muted small mt-4 mb-0">
-            Need a deployment account?
-            <a href="{{ url_for('auth.register') }}" class="vx-link">Create one</a>
+          </form>
+          <p class="text-center text-secondary small mt-4 mb-0">
+            Need an analytics account?
+            <a href="{{ url_for('auth.register') }}" class="text-primary fw-semibold text-decoration-none ms-1">Create
+              one</a>
           </p>
 
-        </div><!-- /vx-auth-card -->
+        </div>
       </div>
     </div>
   </div>
@@ -109,14 +90,14 @@
 {% block extra_scripts %}
 <script>
   // Toggle password visibility
-  const toggleBtn  = document.getElementById("togglePassword");
-  const pwInput    = document.getElementById("password");
+  const toggleBtn = document.getElementById("togglePassword");
+  const pwInput = document.getElementById("password");
   const toggleIcon = document.getElementById("togglePasswordIcon");
 
   if (toggleBtn) {
     toggleBtn.addEventListener("click", () => {
       const isHidden = pwInput.type === "password";
-      pwInput.type   = isHidden ? "text" : "password";
+      pwInput.type = isHidden ? "text" : "password";
       toggleIcon.className = isHidden ? "bi bi-eye-slash" : "bi bi-eye";
     });
   }

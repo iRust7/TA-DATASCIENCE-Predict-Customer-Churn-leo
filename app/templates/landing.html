@@ -1,84 +1,100 @@
 {% extends "base.html" %}
 
-{% block title %}Welcome{% endblock %}
-{% block meta_description %}Veltrix - The modern Flask starter framework for deploying Machine Learning, Data Science, and AI models.{% endblock %}
+{% block title %}Veltrix.ai | Customer Churn Intelligence Portal{% endblock %}
+{% block meta_description %}Platform analisis prediktif berbasis machine learning untuk memetakan loyalitas dan
+meminimalkan risiko churn pelanggan telekomunikasi.{% endblock %}
 
 {% block content %}
 
-<!-- -- Hero Section --------------------------------------------- -->
-<section class="vx-hero d-flex align-items-center" id="hero">
-  <div class="container pb-5 pt-0">
-    <div class="row align-items-center gy-5">
+<section class="py-5" id="hero" style="min-height: 85vh; display: flex; align-items: center;">
+  <div class="container py-4">
+    <div class="row align-items-center g-5">
 
-      <!-- Text column -->
       <div class="col-lg-6 text-center text-lg-start">
 
-        <!-- Render the brand logo and text name here -->
-        <div class="d-flex justify-content-center justify-content-lg-start align-items-center gap-3 mb-4 vx-animate-scale-in">
-          <img src="{{ url_for('static', filename='img/vertix-logo.png') }}" alt="Veltrix Logo" class="vx-hero-logo mb-0" style="max-height: 80px;" />
-          <img src="{{ url_for('static', filename='img/vertix-text-name.png') }}" alt="Veltrix Brand" class="vx-hero-text-name mb-0" style="max-height: 48px;" />
+        <div class="d-flex justify-content-center justify-content-lg-start align-items-center mb-3">
+          <span class="badge bg-primary text-white px-3 py-1.5 rounded-pill fw-semibold shadow-sm"
+            style="font-size: 0.75rem; letter-spacing: 1px;">
+            <i class="bi bi-cpu-fill me-1"></i> AI-POWERED RETENTION ENGINE
+          </span>
         </div>
 
-        <h1 class="vx-hero-title mb-4 vx-animate-fade-in-up vx-delay-100">
-          Deploy Models <br class="d-none d-md-block" />
-          <span class="vx-text-primary">Without Boilerplate.</span>
+        <h1 class="display-4 mb-4 fw-extrabold text-dark"
+          style="font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.2;">
+          Predict Customer Churn <br class="d-none d-md-block" />
+          <span class="text-primary"
+            style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Before
+            It Happens.</span>
         </h1>
 
-        <p class="vx-hero-subtitle mb-5 vx-animate-fade-in-up vx-delay-200">
-          Veltrix is a lightweight, ultra-clean Flask starter template designed specifically for 
-          <strong>Machine Learning, Data Science, and AI developers</strong>. Package your models, 
-          expose endpoints, manage users, and log predictions effortlessly.
+        <p class="text-secondary mb-5 fs-6" style="max-width: 540px; line-height: 1.6;">
+          Ubah data mentah operasional menjadi langkah retensi strategis. Veltrix.ai memanfaatkan kecerdasan arsitektur
+          <strong>Random Forest Classifier</strong> untuk mengidentifikasi 19 matriks parameter pelanggan telekomunikasi
+          yang berisiko tinggi berhenti berlangganan secara instan.
         </p>
 
-        <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start mb-5 vx-animate-fade-in-up vx-delay-300">
+        <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start mb-5">
           {% if current_user.is_authenticated %}
-            <a href="{{ url_for('main.dashboard') }}"
-               class="btn vx-btn-primary btn-lg px-4">
-              <i class="bi bi-grid-1x2 me-2"></i>Go to Dashboard
-            </a>
+          <a href="{{ url_for('main.dashboard') }}" class="gz-btn-primary px-4 py-2.5 shadow-sm text-decoration-none">
+            <i class="bi bi-grid-1x2-fill me-2"></i> Buka Dasbor Analitis
+          </a>
           {% else %}
-            <a href="{{ url_for('auth.register') }}"
-               class="btn vx-btn-primary btn-lg px-4">
-              <i class="bi bi-rocket-takeoff me-2"></i>Register
-            </a>
-            <a href="{{ url_for('auth.login') }}"
-               class="btn vx-btn-outline-accent btn-lg px-4">
-              <i class="bi bi-box-arrow-in-right me-2"></i>Login
-            </a>
+          <a href="{{ url_for('auth.register') }}" class="gz-btn-primary px-4 py-2.5 shadow-sm text-decoration-none">
+            <i class="bi bi-rocket-takeoff-fill me-2"></i> Mulai Registrasi
+          </a>
+          <a href="{{ url_for('auth.login') }}"
+            class="btn btn-outline-secondary border-2 px-4 py-2.5 fw-bold rounded-3">
+            <i class="bi bi-box-arrow-in-right me-2"></i> Masuk Akun
+          </a>
           {% endif %}
         </div>
 
-        <!-- Tech stack tags -->
-        <div class="vx-hero-tags justify-content-center justify-content-lg-start vx-animate-fade-in-up vx-delay-400">
-          <span class="vx-hero-tag"><i class="bi bi-terminal text-primary"></i> Scikit-Learn</span>
-          <span class="vx-hero-tag"><i class="bi bi-box text-accent"></i> PyTorch / TensorFlow</span>
-          <span class="vx-hero-tag"><i class="bi bi-database text-success"></i> NumPy / Pandas</span>
-          <span class="vx-hero-tag"><i class="bi bi-shield-check text-warning"></i> Secure API</span>
+        <div class="d-flex flex-wrap justify-content-center justify-content-lg-start gap-2">
+          <span class="badge bg-light text-secondary border px-2.5 py-2 rounded-3 small fw-medium"><i
+              class="bi bi-terminal-fill text-primary me-1"></i> Scikit-Learn</span>
+          <span class="badge bg-light text-secondary border px-2.5 py-2 rounded-3 small fw-medium"><i
+              class="bi bi-layers-half text-primary me-1"></i> 19 Core Features</span>
+          <span class="badge bg-light text-secondary border px-2.5 py-2 rounded-3 small fw-medium"><i
+              class="bi bi-filetype-json text-primary me-1"></i> JSON Inference Pipeline</span>
         </div>
       </div>
 
-      <!-- Code card column (Deploying ML model mockup) -->
       <div class="col-lg-6 d-none d-lg-block">
-        <div class="vx-code-card vx-animate-fade-in-right vx-delay-200">
-          <div class="vx-code-card-header">
-            <span class="vx-dot vx-dot-red"></span>
-            <span class="vx-dot vx-dot-yellow"></span>
-            <span class="vx-dot vx-dot-green"></span>
-            <span class="ms-3 text-muted small">model_api.py</span>
+        <div class="gz-card p-4 border-0 shadow-lg"
+          style="background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%); border-radius: 24px;">
+          <div class="bg-white rounded-4 p-4 shadow-sm border mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <span class="text-uppercase tracking-wider text-muted fw-bold" style="font-size: 0.7rem;">Real-time Model
+                Inference Payload</span>
+              <span class="badge bg-success-light text-success fw-bold px-2 py-0.5 rounded"
+                style="font-size: 0.75rem;">POST 200 OK</span>
+            </div>
+
+            <div class="p-3 bg-light rounded-3 font-monospace mb-0 text-secondary"
+              style="font-size: 0.82rem; line-height: 1.5;">
+              {<br>
+              &nbsp;&nbsp;<span class="text-primary">"Contract"</span>: "Month-to-month",<br>
+              &nbsp;&nbsp;<span class="text-primary">"InternetService"</span>: "Fiber optic",<br>
+              &nbsp;&nbsp;<span class="text-primary">"MonthlyCharges"</span>: 85.25,<br>
+              &nbsp;&nbsp;<span class="text-primary">"tenure"</span>: 3<br>
+              }
+            </div>
           </div>
-          <pre class="vx-code-body"><code><span class="vx-kw">import</span> joblib
-<span class="vx-kw">from</span> flask <span class="vx-kw">import</span> Blueprint, request, jsonify
 
-ml_bp = Blueprint(<span class="vx-str">"ml_api"</span>, __name__)
-model = joblib.load(<span class="vx-str">"models/classifier.pkl"</span>)
-
-<span class="vx-kw">@ml_bp.route</span>(<span class="vx-str">"/predict"</span>, methods=[<span class="vx-str">"POST"</span>])
-<span class="vx-kw">def</span> <span class="vx-text-primary">predict</span>():
-    data = request.json[<span class="vx-str">"features"</span>]
-    prediction = model.predict([data])[<span class="vx-bool">0</span>]
-    <span class="vx-kw">return</span> jsonify({<span class="vx-str">"prediction"</span>: int(prediction)})
-
-<span class="vx-comment"># Single-command API deployment made easy.</span></code></pre>
+          <div class="bg-white rounded-4 p-4 shadow-sm border-0 bg-light-danger"
+            style="background-color: #fef2f2; border: 1px solid #fee2e2 !important;">
+            <div class="d-flex align-items-center gap-3">
+              <div class="d-flex align-items-center justify-content-center bg-danger rounded-3 text-white"
+                style="width: 42px; height: 42px;">
+                <i class="bi bi-exclamation-triangle-fill fs-5"></i>
+              </div>
+              <div>
+                <h4 class="h6 mb-0 text-danger fw-bold">Prediction Result: HIGH CHURN RISK</h4>
+                <p class="text-muted small mb-0 mt-0.5">Probabilitas model mendeteksi tingkat loyalitas kritis: <span
+                    class="text-danger fw-bold">84.2%</span></p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -87,114 +103,77 @@ model = joblib.load(<span class="vx-str">"models/classifier.pkl"</span>)
 </section>
 
 
-<!-- -- Features Section ----------------------------------------- -->
-<section class="vx-features py-7" id="features">
-  <div class="container">
+<section class="py-5" id="features" style="background-color: #f8fafc;">
+  <div class="container py-4">
 
-    <div class="text-center mb-6">
-      <h2 class="vx-section-title mb-3">Model Deployment Made Simple</h2>
-      <p class="vx-section-sub">
-        Everything you need to turn raw Jupyter Notebook code into production-ready prediction APIs.
+    <div class="text-center mb-5">
+      <h2 class="h3 mb-2 fw-bold text-dark">Robust Machine Learning Operation</h2>
+      <p class="text-muted small mx-auto" style="max-width: 500px;">
+        Arsitektur infrastruktur sistem end-to-end terintegrasi untuk menjamin validasi kalkulasi risiko pelanggan.
       </p>
     </div>
 
     <div class="row g-4">
 
-      <!-- Feature 1 -->
-      <div class="col-md-6 col-lg-4">
-        <div class="vx-feature-card h-100">
-          <div class="vx-feature-icon vx-icon-blue">
-            <i class="bi bi-cpu"></i>
+      <div class="col-md-4">
+        <div class="gz-card h-100 p-4">
+          <div class="d-flex align-items-center justify-content-center rounded-3 mb-3 bg-light"
+            style="width: 48px; height: 48px;">
+            <i class="bi bi-cpu text-primary fs-4"></i>
           </div>
-          <h5 class="vx-feature-title">ML/AI Model Integration</h5>
-          <p class="vx-feature-text">
-            Load models serialized from Scikit-Learn, PyTorch, Keras, or ONNX directly inside the Flask application lifecycle.
+          <h3 class="h6 fw-bold text-dark mb-2">Integrated Classifier</h3>
+          <p class="text-muted small mb-0">
+            Pemuatan berkas model serialisasi binari `churn_rf_model.pkl` langsung ke dalam siklus aplikasi Flask server
+            secara efisien.
           </p>
         </div>
       </div>
 
-      <!-- Feature 2 -->
-      <div class="col-md-6 col-lg-4">
-        <div class="vx-feature-card h-100">
-          <div class="vx-feature-icon vx-icon-purple">
-            <i class="bi bi-shield-lock"></i>
+      <div class="col-md-4">
+        <div class="gz-card h-100 p-4">
+          <div class="d-flex align-items-center justify-content-center rounded-3 mb-3 bg-light"
+            style="width: 48px; height: 48px;">
+            <i class="bi bi-shield-lock text-primary fs-4"></i>
           </div>
-          <h5 class="vx-feature-title">Secure API Authentication</h5>
-          <p class="vx-feature-text">
-            Restrict model prediction endpoints to authorised users, secure client applications, or valid developer accounts.
+          <h3 class="h6 fw-bold text-dark mb-2">Secure Authentication</h3>
+          <p class="text-muted small mb-0">
+            Restriksi gerbang akses halaman dasbor metrik serta form prediksi menggunakan middleware otentikasi login
+            sesi terenkripsi.
           </p>
         </div>
       </div>
 
-      <!-- Feature 3 -->
-      <div class="col-md-6 col-lg-4">
-        <div class="vx-feature-card h-100">
-          <div class="vx-feature-icon vx-icon-green">
-            <i class="bi bi-activity"></i>
+      <div class="col-md-4">
+        <div class="gz-card h-100 p-4">
+          <div class="d-flex align-items-center justify-content-center rounded-3 mb-3 bg-light"
+            style="width: 48px; height: 48px;">
+            <i class="bi bi-sliders text-primary fs-4"></i>
           </div>
-          <h5 class="vx-feature-title">Prediction Logging</h5>
-          <p class="vx-feature-text">
-            Log model inputs, outputs, timestamps, and request volumes directly to SQLite or MySQL database backends.
+          <h3 class="h6 fw-bold text-dark mb-2">19 Feature Dimensions</h3>
+          <p class="text-muted small mb-0">
+            Penanganan parameter input yang lengkap mencakup profil demografi, jenis core services telepon, proteksi
+            add-on, hingga biaya finansial bulanan.
           </p>
         </div>
       </div>
 
-      <!-- Feature 4 -->
-      <div class="col-md-6 col-lg-4">
-        <div class="vx-feature-card h-100">
-          <div class="vx-feature-icon vx-icon-orange">
-            <i class="bi bi-speedometer2"></i>
-          </div>
-          <h5 class="vx-feature-title">Optimised Performance</h5>
-          <p class="vx-feature-text">
-            Lightweight, stateless blueprint routing ensures minimal overhead and lightning-fast inference response times.
-          </p>
-        </div>
-      </div>
-
-      <!-- Feature 5 -->
-      <div class="col-md-6 col-lg-4">
-        <div class="vx-feature-card h-100">
-          <div class="vx-feature-icon vx-icon-pink">
-            <i class="bi bi-database-gear"></i>
-          </div>
-          <h5 class="vx-feature-title">Data Pipeline Support</h5>
-          <p class="vx-feature-text">
-            Clean integration with custom processing pipelines, NumPy vector arrays, Pandas DataFrames, and JSON serializers.
-          </p>
-        </div>
-      </div>
-
-      <!-- Feature 6 -->
-      <div class="col-md-6 col-lg-4">
-        <div class="vx-feature-card h-100">
-          <div class="vx-feature-icon vx-icon-teal">
-            <i class="bi bi-check-all"></i>
-          </div>
-          <h5 class="vx-feature-title">Test-Driven Operations</h5>
-          <p class="vx-feature-text">
-            A comprehensive, pre-configured Pytest suite handles automated endpoint testing so you can upgrade models safely.
-          </p>
-        </div>
-      </div>
-
-    </div><!-- /row -->
-  </div><!-- /container -->
+    </div>
+  </div>
 </section>
 
 
-<!-- -- CTA Section ---------------------------------------------- -->
 {% if not current_user.is_authenticated %}
-<section class="vx-cta py-7">
-  <div class="container text-center">
-    <div class="vx-cta-card vx-card mx-auto py-5 px-4">
-      <h2 class="vx-section-title mb-3">Ready to deploy your first model?</h2>
-      <p class="text-muted mb-4">
-        Set up your secure, modern prediction dashboard in under 5 minutes.
+<section class="py-5">
+  <div class="container text-center py-4">
+    <div class="gz-card border-0 shadow-sm mx-auto py-5 px-4"
+      style="max-width: 750px; background: linear-gradient(135deg, #eff6ff 0%, #f8fafc 100%);">
+      <h2 class="h4 mb-2 fw-bold text-dark">Siap menganalisis performa retensi pelanggan?</h2>
+      <p class="text-muted small mb-4">
+        Masuk atau buat akun framework riset kamu sekarang untuk mengakses simulasi inferensi data.
       </p>
       <a href="{{ url_for('auth.register') }}"
-         class="btn vx-btn-primary btn-lg px-5">
-        <i class="bi bi-rocket-takeoff me-2"></i>Create Framework Account
+        class="gz-btn-primary px-5 py-2.5 text-decoration-none shadow-sm d-inline-block">
+        <i class="bi bi-rocket-takeoff-fill me-2"></i> Daftarkan Akun Sekarang
       </a>
     </div>
   </div>

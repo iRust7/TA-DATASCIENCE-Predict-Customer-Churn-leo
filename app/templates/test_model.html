@@ -1,297 +1,383 @@
 {% extends "base.html" %}
 
-{% block title %}Test Model{% endblock %}
-{% block meta_description %}Run a live salary prediction using the deployed Random Forest Regressor model.{% endblock %}
+{% block title %}Analisis Risiko Churn Pelanggan{% endblock %}
+{% block meta_description %}Prediksi risiko pelanggan berhenti berlangganan menggunakan algoritma Random Forest
+Classifier.{% endblock %}
 
 {% block content %}
-<section class="vx-dashboard py-5">
+<section class="py-5" style="background-color: #fafafa; min-height: 100vh;">
   <div class="container">
 
-    <!-- ── Page Header ───────────────────────────────────────────────── -->
-    <div class="vx-dashboard-banner mb-5 vx-animate-fade-in-up">
+    <div class="gz-card mb-5 border-0 p-4 p-sm-5"
+      style="background: linear-gradient(135deg, #f0f7ff 0%, #e2eefe 100%);">
       <div class="row align-items-center gy-3">
         <div class="col-auto">
-          <div class="vx-avatar" style="background-color: var(--vx-primary);">
-            <i class="bi bi-play-fill" style="font-size:1.3rem;"></i>
+          <div class="d-flex align-items-center justify-content-center bg-white shadow-sm border"
+            style="width: 56px; height: 56px; border-radius: 12px;">
+            <i class="bi bi-cpu text-primary" style="font-size: 1.5rem;"></i>
           </div>
         </div>
         <div class="col">
-          <p class="vx-dashboard-greeting mb-0">LIVE INFERENCE</p>
-          <h1 class="vx-dashboard-username mb-0">Test Model</h1>
-        </div>
-        <div class="col-auto">
-          <a href="{{ url_for('main.dashboard') }}" class="btn vx-btn-outline-light btn-sm d-flex align-items-center gap-2">
-            <i class="bi bi-arrow-left"></i> Back to Dashboard
-          </a>
+          <span class="badge bg-primary text-white mb-2 px-2.5 py-1.5 rounded-pill fw-semibold"
+            style="font-size: 0.725rem; letter-spacing: 0.5px;">INTEGRATED ML MODEL</span>
+          <h1 class="h3 mb-1 fw-bold text-dark" style="font-family: 'Plus Jakarta Sans', sans-serif;">Predictive
+            Analytics Platform</h1>
+          <p class="text-secondary mb-0 small" style="max-width: 700px;">Analisis secara instan risiko <em>churn</em>
+            pelanggan telekomunikasi menggunakan keandalan algoritma Random Forest Classifier.</p>
         </div>
       </div>
     </div>
 
-    <div class="row g-4 align-items-start">
+    <div class="row g-4">
 
-      <!-- ── Input Form ────────────────────────────────────────────── -->
-      <div class="col-lg-6">
-        <div class="vx-card">
-          <div class="vx-card-header d-flex align-items-center gap-2">
-            <i class="bi bi-sliders vx-text-primary"></i>
-            Input Parameters
-          </div>
-          <div class="vx-card-body">
-
-            <p class="text-muted small mb-4">
-              Fill in all fields below to generate a salary prediction using the deployed
-              <strong>Random Forest Regressor</strong> model.
-            </p>
-
-            <form method="POST" action="{{ url_for('main.test_model') }}" id="predictionForm" novalidate>
-
-              <!-- Error / Result flash area -->
-              {% if result and not result.success %}
-              <div class="alert alert-danger vx-alert mb-4" role="alert">
-                <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                {{ result.error }}
-              </div>
-              {% endif %}
-
-              <div class="row g-3">
-
-                <!-- Age -->
-                <div class="col-sm-6">
-                  <label class="vx-form-label" for="Age">
-                    <i class="bi bi-person me-1 vx-text-primary"></i>Age
-                  </label>
-                  <input
-                    type="number"
-                    class="form-control vx-input-field"
-                    id="Age"
-                    name="Age"
-                    min="18" max="70"
-                    placeholder="e.g. 30"
-                    value="{{ result.input_summary.Age if result and result.input_summary else '' }}"
-                    required
-                  />
-                  <div class="vx-form-hint">Range: 18 – 70 years</div>
-                </div>
-
-                <!-- Years of Experience -->
-                <div class="col-sm-6">
-                  <label class="vx-form-label" for="Years_of_Experience">
-                    <i class="bi bi-briefcase me-1 vx-text-accent"></i>Years of Experience
-                  </label>
-                  <input
-                    type="number"
-                    class="form-control vx-input-field"
-                    id="Years_of_Experience"
-                    name="Years_of_Experience"
-                    min="0" max="36" step="0.5"
-                    placeholder="e.g. 5"
-                    value="{{ result.input_summary.Years_of_Experience if result and result.input_summary else '' }}"
-                    required
-                  />
-                  <div class="vx-form-hint">Range: 0 – 36 years</div>
-                </div>
-
-                <!-- Gender -->
-                <div class="col-sm-6">
-                  <label class="vx-form-label" for="Gender">
-                    <i class="bi bi-gender-ambiguous me-1 text-info"></i>Gender
-                  </label>
-                  <select class="form-select vx-select-field" id="Gender" name="Gender" required>
-                    <option value="" disabled {% if not (result and result.input_summary.get('Gender')) %}selected{% endif %}>Select gender…</option>
-                    {% for g in options.Gender %}
-                    <option value="{{ g }}"
-                      {% if result and result.input_summary.get('Gender') == g %}selected{% endif %}>
-                      {{ g }}
-                    </option>
-                    {% endfor %}
-                  </select>
-                </div>
-
-                <!-- Education Level -->
-                <div class="col-sm-6">
-                  <label class="vx-form-label" for="Education_Level">
-                    <i class="bi bi-mortarboard me-1 text-success"></i>Education Level
-                  </label>
-                  <select class="form-select vx-select-field" id="Education_Level" name="Education_Level" required>
-                    <option value="" disabled {% if not (result and result.input_summary.get('Education_Level')) %}selected{% endif %}>Select level…</option>
-                    {% for e in options.Education_Level %}
-                    <option value="{{ e }}"
-                      {% if result and result.input_summary.get('Education_Level') == e %}selected{% endif %}>
-                      {{ e }}
-                    </option>
-                    {% endfor %}
-                  </select>
-                </div>
-
-                <!-- Job Title -->
-                <div class="col-12">
-                  <label class="vx-form-label" for="Job_Title">
-                    <i class="bi bi-person-badge me-1 text-warning"></i>Job Title
-                  </label>
-                  <select class="form-select vx-select-field" id="Job_Title" name="Job_Title" required>
-                    <option value="" disabled {% if not (result and result.input_summary.get('Job_Title')) %}selected{% endif %}>Select job title…</option>
-                    {% for j in options.Job_Title %}
-                    <option value="{{ j }}"
-                      {% if result and result.input_summary.get('Job_Title') == j %}selected{% endif %}>
-                      {{ j }}
-                    </option>
-                    {% endfor %}
-                  </select>
-                </div>
-
-                <!-- Country -->
-                <div class="col-sm-6">
-                  <label class="vx-form-label" for="Country">
-                    <i class="bi bi-globe2 me-1 vx-text-primary"></i>Country
-                  </label>
-                  <select class="form-select vx-select-field" id="Country" name="Country" required>
-                    <option value="" disabled {% if not (result and result.input_summary.get('Country')) %}selected{% endif %}>Select country…</option>
-                    {% for c in options.Country %}
-                    <option value="{{ c }}"
-                      {% if result and result.input_summary.get('Country') == c %}selected{% endif %}>
-                      {{ c }}
-                    </option>
-                    {% endfor %}
-                  </select>
-                </div>
-
-                <!-- Race -->
-                <div class="col-sm-6">
-                  <label class="vx-form-label" for="Race">
-                    <i class="bi bi-people me-1 vx-text-accent"></i>Race
-                  </label>
-                  <select class="form-select vx-select-field" id="Race" name="Race" required>
-                    <option value="" disabled {% if not (result and result.input_summary.get('Race')) %}selected{% endif %}>Select race…</option>
-                    {% for r in options.Race %}
-                    <option value="{{ r }}"
-                      {% if result and result.input_summary.get('Race') == r %}selected{% endif %}>
-                      {{ r }}
-                    </option>
-                    {% endfor %}
-                  </select>
-                </div>
-
-                <!-- Submit -->
-                <div class="col-12 pt-2">
-                  <button type="submit" class="btn vx-btn-primary w-100 d-flex align-items-center justify-content-center gap-2" id="btnPredict">
-                    <i class="bi bi-cpu-fill"></i>
-                    Run Prediction
-                  </button>
-                </div>
-
-              </div><!-- /row g-3 -->
-            </form>
-
-          </div>
-        </div>
-      </div><!-- /form col -->
-
-      <!-- ── Result Panel ──────────────────────────────────────────── -->
-      <div class="col-lg-6">
-
-        {% if result and result.success %}
-        <!-- SUCCESS RESULT -->
-        <div class="vx-result-card vx-animate-fade-in-up mb-4" id="predictionResult">
-          <div class="vx-result-header">
-            <div class="vx-result-icon">
-              <i class="bi bi-check-circle-fill"></i>
-            </div>
+      <div class="col-xl-7 col-lg-6">
+        <div class="gz-card p-4 p-sm-5 border bg-white shadow-sm">
+          <div class="d-flex align-items-center gap-2 mb-4 border-bottom pb-3">
+            <i class="bi bi-sliders text-primary fs-5"></i>
             <div>
-              <p class="vx-result-label mb-0">Predicted Annual Salary</p>
-              <h2 class="vx-result-value mb-0">{{ result.formatted }}</h2>
+              <h2 class="h5 mb-0 fw-bold text-dark">Customer Parameters</h2>
+              <p class="text-muted small mb-0">Lengkapi data profil dan layanan untuk memulai inferensi model.</p>
             </div>
           </div>
-          <div class="vx-result-divider"></div>
-          <div class="vx-result-summary">
-            <p class="vx-result-summary-title mb-2">
-              <i class="bi bi-list-check me-2"></i>Input Summary
-            </p>
-            <div class="row g-2">
-              {% for key, val in result.input_summary.items() %}
+
+          <form action="{{ url_for('main.test_model') }}" method="POST" autocomplete="off">
+
+            <h3 class="h6 text-uppercase tracking-wider text-primary fw-bold mb-3" style="font-size: 0.75rem;">1.
+              Demographics & Profile</h3>
+            <div class="row g-3 mb-4">
               <div class="col-sm-6">
-                <div class="vx-summary-item">
-                  <span class="vx-summary-key">{{ key | replace('_', ' ') }}</span>
-                  <span class="vx-summary-val">{{ val }}</span>
+                <label class="form-label text-dark small fw-medium" for="gender">Jenis Kelamin</label>
+                <select class="form-select text-dark" id="gender" name="gender" required style="font-size: 0.9rem;">
+                  <option value="" disabled {% if not result %}selected{% endif %}>Pilih Gender</option>
+                  {% for opt in options['gender'] %}
+                  <option value="{{ opt }}" {% if result and result.input_summary.gender==opt %}selected{% endif %}>{{
+                    opt }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label text-dark small fw-medium" for="SeniorCitizen">Warga Senior (Lansia)</label>
+                <select class="form-select text-dark" id="SeniorCitizen" name="SeniorCitizen" required
+                  style="font-size: 0.9rem;">
+                  <option value="" disabled {% if not result %}selected{% endif %}>Pilih Opsi</option>
+                  {% for opt in options['SeniorCitizen'] %}
+                  <option value="{{ opt }}" {% if result and result.input_summary.SeniorCitizen==opt %}selected{% endif
+                    %}>{{ opt }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label text-dark small fw-medium" for="Partner">Memiliki Pasangan</label>
+                <select class="form-select text-dark" id="Partner" name="Partner" required style="font-size: 0.9rem;">
+                  <option value="" disabled {% if not result %}selected{% endif %}>Pilih Opsi</option>
+                  {% for opt in options['Partner'] %}
+                  <option value="{{ opt }}" {% if result and result.input_summary.Partner==opt %}selected{% endif %}>{{
+                    opt }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label text-dark small fw-medium" for="Dependents">Memiliki Tanggungan</label>
+                <select class="form-select text-dark" id="Dependents" name="Dependents" required
+                  style="font-size: 0.9rem;">
+                  <option value="" disabled {% if not result %}selected{% endif %}>Pilih Opsi</option>
+                  {% for opt in options['Dependents'] %}
+                  <option value="{{ opt }}" {% if result and result.input_summary.Dependents==opt %}selected{% endif %}>
+                    {{ opt }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+
+            <h3 class="h6 text-uppercase tracking-wider text-primary fw-bold mb-3" style="font-size: 0.75rem;">2. Core
+              Services</h3>
+            <div class="row g-3 mb-4">
+              <div class="col-sm-6">
+                <label class="form-label text-dark small fw-medium" for="PhoneService">Layanan Telepon</label>
+                <select class="form-select text-dark" id="PhoneService" name="PhoneService" required
+                  style="font-size: 0.9rem;">
+                  <option value="" disabled {% if not result %}selected{% endif %}>Pilih Opsi</option>
+                  {% for opt in options['PhoneService'] %}
+                  <option value="{{ opt }}" {% if result and result.input_summary.PhoneService==opt %}selected{% endif
+                    %}>{{ opt }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label text-dark small fw-medium" for="MultipleLines">Multi Saluran (Multiple
+                  Lines)</label>
+                <select class="form-select text-dark" id="MultipleLines" name="MultipleLines" required
+                  style="font-size: 0.9rem;">
+                  <option value="" disabled {% if not result %}selected{% endif %}>Pilih Opsi</option>
+                  {% for opt in options['MultipleLines'] %}
+                  <option value="{{ opt }}" {% if result and result.input_summary.MultipleLines==opt %}selected{% endif
+                    %}>{{ opt }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-12">
+                <label class="form-label text-dark small fw-medium" for="InternetService">Provider Layanan
+                  Internet</label>
+                <select class="form-select text-dark" id="InternetService" name="InternetService" required
+                  style="font-size: 0.9rem;">
+                  <option value="" disabled {% if not result %}selected{% endif %}>Pilih Opsi Internet</option>
+                  {% for opt in options['InternetService'] %}
+                  <option value="{{ opt }}" {% if result and result.input_summary.InternetService==opt %}selected{%
+                    endif %}>{{ opt }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+
+            <h3 class="h6 text-uppercase tracking-wider text-primary fw-bold mb-3" style="font-size: 0.75rem;">3. Add-on
+              Features & Security</h3>
+            <div class="row g-3 mb-4">
+              <div class="col-sm-6">
+                <label class="form-label text-dark small fw-medium" for="OnlineSecurity">Online Security</label>
+                <select class="form-select text-dark" id="OnlineSecurity" name="OnlineSecurity" required
+                  style="font-size: 0.9rem;">
+                  {% for opt in options['OnlineSecurity'] %}
+                  <option value="{{ opt }}" {% if result and result.input_summary.OnlineSecurity==opt %}selected{% endif
+                    %}>{{ opt }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label text-dark small fw-medium" for="OnlineBackup">Online Backup</label>
+                <select class="form-select text-dark" id="OnlineBackup" name="OnlineBackup" required
+                  style="font-size: 0.9rem;">
+                  {% for opt in options['OnlineBackup'] %}
+                  <option value="{{ opt }}" {% if result and result.input_summary.OnlineBackup==opt %}selected{% endif
+                    %}>{{ opt }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label text-dark small fw-medium" for="DeviceProtection">Device Protection</label>
+                <select class="form-select text-dark" id="DeviceProtection" name="DeviceProtection" required
+                  style="font-size: 0.9rem;">
+                  {% for opt in options['DeviceProtection'] %}
+                  <option value="{{ opt }}" {% if result and result.input_summary.DeviceProtection==opt %}selected{%
+                    endif %}>{{ opt }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label text-dark small fw-medium" for="TechSupport">Premium Tech Support</label>
+                <select class="form-select text-dark" id="TechSupport" name="TechSupport" required
+                  style="font-size: 0.9rem;">
+                  {% for opt in options['TechSupport'] %}
+                  <option value="{{ opt }}" {% if result and result.input_summary.TechSupport==opt %}selected{% endif
+                    %}>{{ opt }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label text-dark small fw-medium" for="StreamingTV">Streaming TV</label>
+                <select class="form-select text-dark" id="StreamingTV" name="StreamingTV" required
+                  style="font-size: 0.9rem;">
+                  {% for opt in options['StreamingTV'] %}
+                  <option value="{{ opt }}" {% if result and result.input_summary.StreamingTV==opt %}selected{% endif
+                    %}>{{ opt }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label text-dark small fw-medium" for="StreamingMovies">Streaming Movies</label>
+                <select class="form-select text-dark" id="StreamingMovies" name="StreamingMovies" required
+                  style="font-size: 0.9rem;">
+                  {% for opt in options['StreamingMovies'] %}
+                  <option value="{{ opt }}" {% if result and result.input_summary.StreamingMovies==opt %}selected{%
+                    endif %}>{{ opt }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+
+            <h3 class="h6 text-uppercase tracking-wider text-primary fw-bold mb-3" style="font-size: 0.75rem;">4.
+              Billing & Financial Metrics</h3>
+            <div class="row g-3 mb-4">
+              <div class="col-sm-6">
+                <label class="form-label text-dark small fw-medium" for="Contract">Tipe Kontrak</label>
+                <select class="form-select text-dark" id="Contract" name="Contract" required style="font-size: 0.9rem;">
+                  {% for opt in options['Contract'] %}
+                  <option value="{{ opt }}" {% if result and result.input_summary.Contract==opt %}selected{% endif %}>{{
+                    opt }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label text-dark small fw-medium" for="PaperlessBilling">Paperless Billing</label>
+                <select class="form-select text-dark" id="PaperlessBilling" name="PaperlessBilling" required
+                  style="font-size: 0.9rem;">
+                  {% for opt in options['PaperlessBilling'] %}
+                  <option value="{{ opt }}" {% if result and result.input_summary.PaperlessBilling==opt %}selected{%
+                    endif %}>{{ opt }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-12">
+                <label class="form-label text-dark small fw-medium" for="PaymentMethod">Metode Pembayaran</label>
+                <select class="form-select text-dark" id="PaymentMethod" name="PaymentMethod" required
+                  style="font-size: 0.9rem;">
+                  {% for opt in options['PaymentMethod'] %}
+                  <option value="{{ opt }}" {% if result and result.input_summary.PaymentMethod==opt %}selected{% endif
+                    %}>{{ opt }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div class="col-sm-4">
+                <label class="form-label text-dark small fw-medium" for="tenure">Tenure (Bulan)</label>
+                <input type="number" class="form-control text-dark" id="tenure" name="tenure" min="0" max="72"
+                  placeholder="E.g., 12" value="{{ result.input_summary.tenure if result else '' }}" required
+                  style="font-size: 0.9rem;" />
+                <div class="form-text text-muted" style="font-size: 0.7rem;">Rentang: 0 - 72 Bln</div>
+              </div>
+              <div class="col-sm-4">
+                <label class="form-label text-dark small fw-medium" for="MonthlyCharges">Biaya Bulanan ($)</label>
+                <input type="number" step="0.01" class="form-control text-dark" id="MonthlyCharges"
+                  name="MonthlyCharges" min="0" max="200" placeholder="E.g., 65.50"
+                  value="{{ result.input_summary.MonthlyCharges if result else '' }}" required
+                  style="font-size: 0.9rem;" />
+                <div class="form-text text-muted" style="font-size: 0.7rem;">Maks: $200</div>
+              </div>
+              <div class="col-sm-4">
+                <label class="form-label text-dark small fw-medium" for="TotalCharges">Total Pengeluaran ($)</label>
+                <input type="number" step="0.01" class="form-control text-dark" id="TotalCharges" name="TotalCharges"
+                  min="0" max="10000" placeholder="E.g., 820.40"
+                  value="{{ result.input_summary.TotalCharges if result else '' }}" required
+                  style="font-size: 0.9rem;" />
+                <div class="form-text text-muted" style="font-size: 0.7rem;">Maks: $10000</div>
+              </div>
+            </div>
+
+            <div class="pt-3 border-top">
+              <button type="submit"
+                class="gz-btn-primary w-100 py-2.5 shadow-sm border-0 d-flex align-items-center justify-content-center gap-2">
+                <i class="bi bi-lightning-charge-fill"></i> Jalankan Komputasi Inferensi Model
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="col-xl-5 col-lg-6">
+        <div class="position-sticky" style="top: 100px;">
+
+          {% if result and result.error %}
+          <div class="alert bg-white border shadow-sm d-flex align-items-start gap-3 p-4"
+            style="border-radius: 12px; border-left: 4px solid #ef4444 !important;">
+            <i class="bi bi-x-circle-fill text-danger fs-4"></i>
+            <div>
+              <h4 class="h6 text-danger fw-bold mb-1">Gagal Memproses Inferensi</h4>
+              <p class="mb-0 text-secondary small">{{ result.error | safe }}</p>
+            </div>
+          </div>
+          {% endif %}
+
+          {% if result and result.success %}
+          <div class="gz-card border p-4 p-sm-5 text-center bg-white shadow-sm mb-4" style="border-radius: 16px;">
+            <p class="text-uppercase tracking-wider text-muted fw-bold mb-2" style="font-size: 0.75rem;">Hasil Analisis
+              Probabilitas</p>
+
+            <div class="mb-3">
+              {% if result.churn_risk == 'Tinggi' %}
+              <span
+                class="badge bg-danger-subtle text-danger border border-danger-subtle px-4 py-2 rounded-pill fw-bold text-uppercase"
+                style="font-size: 0.8rem;">
+                Risiko Churn Tinggi
+              </span>
+              {% else %}
+              <span
+                class="badge bg-success-subtle text-success border border-success-subtle px-4 py-2 rounded-pill fw-bold text-uppercase"
+                style="font-size: 0.8rem;">
+                Risiko Churn Rendah
+              </span>
+              {% endif %}
+            </div>
+
+            <h3
+              class="display-4 fw-bold mb-1 {% if result.churn_risk == 'Tinggi' %}text-danger{% else %}text-success{% endif %}"
+              style="font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: -1px;">
+              {{ result.probability_formatted }}
+            </h3>
+            <p class="text-secondary small mb-0 px-3">Kemungkinan kecenderungan pelanggan berhenti berlangganan
+              berdasarkan parameter masukan.</p>
+
+            <div class="bg-light rounded-3 p-3 mt-4 border">
+              <div class="row text-center">
+                <div class="col-6 border-end">
+                  <span class="text-muted d-block mb-1" style="font-size: 0.8rem;">Beban Bulanan</span>
+                  <span class="fw-bold text-dark fs-5">${{ result.input_summary.MonthlyCharges }}</span>
+                </div>
+                <div class="col-6">
+                  <span class="text-muted d-block mb-1" style="font-size: 0.8rem;">Loyalitas Aktif</span>
+                  <span class="fw-bold text-dark fs-5">{{ result.input_summary.tenure }} Bulan</span>
                 </div>
               </div>
-              {% endfor %}
             </div>
           </div>
-        </div>
-        {% endif %}
+          {% endif %}
 
-        <!-- Model Info Sidebar -->
-        <div class="vx-card {% if not (result and result.success) %}vx-card-highlighted{% endif %}">
-          <div class="vx-card-header d-flex align-items-center gap-2">
-            <i class="bi bi-info-circle-fill vx-text-primary"></i>
-            Model Details
-          </div>
-          <div class="vx-card-body">
-            <table class="vx-model-info-table w-100">
+          <div class="gz-card border p-4 bg-white shadow-sm mb-4">
+            <div class="d-flex align-items-center gap-2 mb-3 border-bottom pb-2">
+              <i class="bi bi-info-circle text-primary fs-5"></i>
+              <h4 class="h6 mb-0 fw-bold text-dark">Metadata & Pipeline Informasi</h4>
+            </div>
+
+            <table class="table table-sm table-borderless small mb-0">
               <tbody>
-                <tr>
-                  <td class="vx-info-label"><i class="bi bi-tag me-2 vx-text-primary"></i>Model</td>
-                  <td class="vx-info-value">Salary Prediction Model</td>
+                <tr class="border-bottom">
+                  <td class="text-muted py-2">Algorithm Base</td>
+                  <td class="text-end fw-semibold text-dark py-2">Random Forest (Scikit-Learn)</td>
+                </tr>
+                <tr class="border-bottom">
+                  <td class="text-muted py-2">Total Fitur Dimensi</td>
+                  <td class="text-end fw-semibold text-dark py-2">19 Fitur Finansial & Demografi</td>
+                </tr>
+                <tr class="border-bottom">
+                  <td class="text-muted py-2">Preprocessing Pipeline</td>
+                  <td class="text-end fw-semibold text-dark py-2">Label Encoding & Dummy Variables</td>
                 </tr>
                 <tr>
-                  <td class="vx-info-label"><i class="bi bi-diagram-3 me-2 text-success"></i>Algorithm</td>
-                  <td class="vx-info-value">Random Forest Regressor</td>
-                </tr>
-                <tr>
-                  <td class="vx-info-label"><i class="bi bi-graph-up me-2 vx-text-accent"></i>R² Score</td>
-                  <td class="vx-info-value"><strong class="text-success">0.9549</strong></td>
-                </tr>
-                <tr>
-                  <td class="vx-info-label"><i class="bi bi-arrows-expand-vertical me-2 text-danger"></i>MAE</td>
-                  <td class="vx-info-value">$7,335.20</td>
-                </tr>
-                <tr>
-                  <td class="vx-info-label"><i class="bi bi-reception-4 me-2 text-warning"></i>RMSE</td>
-                  <td class="vx-info-value">$11,356.48</td>
+                  <td class="text-muted py-2">Model Target Metric</td>
+                  <td class="text-end fw-semibold text-success py-2">F1-Score Optimized</td>
                 </tr>
               </tbody>
             </table>
+          </div>
 
-            <div class="vx-feature-tags mt-4">
-              <p class="text-muted small fw-semibold mb-2">Input Features Used:</p>
-              <div class="d-flex flex-wrap gap-2">
-                {% for col in ['Age', 'Years of Experience', 'Gender', 'Education Level', 'Job Title', 'Country', 'Race'] %}
-                <span class="vx-feature-tag-pill">{{ col }}</span>
-                {% endfor %}
-              </div>
+          {% if not (result and result.success) %}
+          <div class="gz-card border-0 p-4" style="background-color: #f1f5f9; border-radius: 12px;">
+            <div class="d-flex align-items-center gap-2 mb-3 fw-bold text-dark" style="font-size: 0.9rem;">
+              <i class="bi bi-lightbulb text-primary"></i>
+              Cara Kerja Inferensi
             </div>
-          </div>
-        </div>
-
-        <!-- Guide card when no result yet -->
-        {% if not (result and result.success) %}
-        <div class="vx-card mt-4">
-          <div class="vx-card-header d-flex align-items-center gap-2">
-            <i class="bi bi-lightbulb-fill text-warning"></i>
-            How It Works
-          </div>
-          <div class="vx-card-body">
-            <ul class="vx-checklist">
-              <li>
-                <i class="bi bi-1-circle-fill vx-text-primary me-2"></i>
-                <div>Fill in all the <strong>7 input fields</strong> on the left</div>
+            <ul class="list-unstyled text-secondary small ps-0 mb-0">
+              <li class="mb-2.5 d-flex gap-2">
+                <span class="text-primary fw-bold">1.</span>
+                <span>Lengkapi seluruh <strong>19 parameter input</strong> profil data pelanggan pada form di sisi
+                  sebelah kiri.</span>
               </li>
-              <li>
-                <i class="bi bi-2-circle-fill vx-text-accent me-2"></i>
-                <div>Click <strong>Run Prediction</strong> to submit</div>
+              <li class="mb-2.5 d-flex gap-2">
+                <span class="text-primary fw-bold">2.</span>
+                <span>Klik tombol eksekusi komputasi untuk mengirimkan <em>payload</em> data menuju skrip Flask
+                  backend.</span>
               </li>
-              <li>
-                <i class="bi bi-3-circle-fill text-success me-2"></i>
-                <div>The model returns an <strong>estimated annual salary</strong> in USD</div>
+              <li class="d-flex gap-2">
+                <span class="text-primary fw-bold">3.</span>
+                <span>Model biner Random Forest memetakan bobot keputusan secara instan guna mengembalikan status
+                  probabilitas risiko churn.</span>
               </li>
             </ul>
           </div>
+          {% endif %}
+
         </div>
-        {% endif %}
+      </div>
 
-      </div><!-- /result col -->
-    </div><!-- /row -->
-
-  </div><!-- /container -->
+    </div>
+  </div>
 </section>
 {% endblock %}

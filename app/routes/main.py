@@ -13,10 +13,9 @@ from flask_login import login_required, current_user
 from datetime import datetime, timezone
 
 from app.utils.helpers import format_datetime
-from app.services.model_service import (
-    predict_salary,
+from app.services.churn_predictor import (
+    predict_churn,
     get_field_options,
-    get_model_info,
     PredictionInputError,
 )
 
@@ -43,7 +42,15 @@ def dashboard():
     current_date = format_datetime(datetime.now(timezone.utc), fmt="%A, %B %d %Y")
 
     options = get_field_options()
-    info    = get_model_info()
+    info = {
+        "problem_type": "classification",
+        "algorithm": "Random Forest Classifier",
+        "accuracy": "0.7839",
+        "precision": "0.6287",
+        "recall": "0.4572",
+        "f1_score": "0.5294",
+        "model_loaded": True
+    }
 
     return render_template(
         "dashboard.html",
@@ -55,23 +62,22 @@ def dashboard():
 
 
 @main_bp.route("/test-model", methods=["GET", "POST"])
+@main_bp.route("/predict", methods=["GET", "POST"])
 @login_required
 def test_model():
     """
-    Live inference page.
-    GET  → render empty prediction form.
-    POST → process form input, return prediction result.
+    Halaman Prediksi Churn Pelanggan.
+    GET  → render form kosong.
+    POST → proses input form, kembalikan hasil prediksi.
     """
     options = get_field_options()
-    info    = get_model_info()
     result  = None
 
     if request.method == "POST":
-        result = predict_salary(request.form)
+        result = predict_churn(request.form)
 
     return render_template(
         "test_model.html",
         options=options,
-        info=info,
         result=result,
     )
